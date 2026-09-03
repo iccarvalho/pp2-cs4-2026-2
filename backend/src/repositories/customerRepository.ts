@@ -1,27 +1,37 @@
 import { prisma } from "../db/prisma";
 
-// Cria um novo cliente na tabela
-export function create(data: any) {
+import type { CreateCustomerDto } from "../dtos/customer/createCustomerDto";
+import type { UpdateCustomerDto } from "../dtos/customer/updateCustomerDto";
 
-}
-
-// Encontra um cliente na tabela por seu id
-export function findById(id: number) {
-
-}
-
-// Lista todos os clientes da tabela
 export function findAll() {
-
+    return prisma.customer.findMany({
+    orderBy: {
+        name: "asc",
+    },
+    });
 }
 
-
-// Atualiza os dados de um cliente, buscando-o pelo id
-export function updateById(id: number, data: any) {
-
+export function findById(id: number) {
+    return prisma.customer.findUnique({
+    where: { id },
+    });
 }
 
-// Exclui um cliente da tabela, buscando-o por seu id
-export function deleteByid(id: number) {
+export function create(data: CreateCustomerDto) {
+    return prisma.customer.create({
+    data,
+    });
+}
 
+export function update(id: number, data: UpdateCustomerDto) {
+    return prisma.customer.update({
+    where: { id },
+    data,
+    });
+}
+
+export function remove(id: number) {
+    return prisma.customer.delete({
+    where: { id },
+    });
 }
