@@ -21,13 +21,19 @@ export async function findById(id: number): Promise<Customer> {
 }
 
 export async function create(data: CreateCustomerDto): Promise<Customer> {
-    return repository.create(data);
+    return repository.create({
+        ...data,
+        birth_date: data.birth_date ? new Date(data.birth_date) : null
+    });
 }
 
 export async function update(id: number, data: UpdateCustomerDto): Promise<Customer> {
     await findById(id);
 
-    return repository.update(id, data);
+    return repository.update(id, {
+        ...data,
+        birth_date: data.birth_date ? new Date(data.birth_date) : data.birth_date
+    });
 }
 
 export async function remove(id: number): Promise<Customer> {
